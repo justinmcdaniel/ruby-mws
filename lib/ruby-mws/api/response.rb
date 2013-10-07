@@ -3,9 +3,9 @@ module MWS
 
     class Response < Hashie::Rash
       
-      def self.parse(hash, name, params)
+      def self.parse(hash, name, params, request_uri)
         rash = self.new(hash)
-        handle_error_response(rash["error_response"]["error"]) unless rash["error_response"].nil?
+        handle_error_response(rash["error_response"]["error"], request_uri) unless rash["error_response"].nil?
         raise BadResponseError, "received non-matching response type #{rash.keys}" if rash["#{name}_response"].nil?
         rash = rash["#{name}_response"]
 
@@ -16,8 +16,8 @@ module MWS
         end
       end
 
-      def self.handle_error_response(error)
-        msg = "#{error.code}: #{error.message}"
+      def self.handle_error_response(error, request_uri)
+        msg = "#{request_uri}\n\n#{error.code}: #{error.message}"
         msg << " -- #{error.detail}" unless error.detail.nil?
         raise ErrorResponse, msg
       end

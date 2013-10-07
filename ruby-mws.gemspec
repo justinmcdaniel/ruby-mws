@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "ruby-mws/version"
 
 Gem::Specification.new do |s|
-  s.name        = "ruby-mws-2"
+  s.name        = "ruby-mws"
   s.version     = MWS::VERSION
   s.authors     = ["Erik Lyngved"]
   s.email       = ["elyngved@gmail.com"]
@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{RubyMWS Gem}
   s.description = %q{(Under development) This gem serves as a wrapper for Amazon.com's Marketplace Web Service (MWS) API. Visit http://github.com/elyngved/ruby-mws for documentation.}
 
-  s.rubyforge_project = "ruby-mws-2"
+  s.rubyforge_project = "ruby-mws"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
