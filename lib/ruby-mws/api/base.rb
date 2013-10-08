@@ -41,11 +41,13 @@ module MWS
         params[:signature_version] ||= '2'
         params[:timestamp]         ||= Time.now.iso8601
         params[:version]           ||= '2009-01-01'
-        params[:marketplace_id]    ||= params[:marketplace_id]
 
         params[:lists] ||= {}
-        #todo: put the following line back in
-        #params[:lists][:marketplace_id] = "MarketplaceId.Id"
+        if self.class.to_s == "MWS::API::Product"
+          params[:marketplace_id]    ||= params[:marketplace_id]
+        else
+          params[:lists][:marketplace_id] = "MarketplaceId.Id"
+        end
 
         query = Query.new params
         @response = Response.parse self.class.send(params[:verb], query.request_uri), name, params, query.request_uri
