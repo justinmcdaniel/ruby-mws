@@ -36,7 +36,7 @@ module MWS
         params = [params, options, @connection.to_hash].inject :merge
 
         # default/common params
-        params[:action]            ||= name.to_s.camelize
+        params[:action]            ||= name.to_s.camelize.sub(/Asin/,'ASIN') #hack to capitalize ASIN
         params[:signature_method]  ||= 'HmacSHA256'
         params[:signature_version] ||= '2'
         params[:timestamp]         ||= Time.now.iso8601
@@ -50,10 +50,12 @@ module MWS
         end
 
         query = Query.new params
-        @response = Response.parse self.class.send(params[:verb], query.request_uri), name, params, query.request_uri
+        http_response = self.class.send(params[:verb], query.request_uri)
+        @response = Response.parse http_response, name, params, query.request_uri
         if @response.respond_to?(:next_token) and @next[:token] = @response.next_token  # modifying, not comparing
           @next[:action] = name.match(/_by_next_token/) ? name : "#{name}_by_next_token"
         end
+
         @response
       end
 
