@@ -28,10 +28,10 @@ module MWS
       def self.standardize_rash(rash)
         # I desired a standardly typed response in the form of an array even when only
         # one result was returned. Unfortunately, the default behavior is to return a 
-        # hash when there is only one result and an array if there is more than one result.
-        # So I added a "standard_response" flag to return an array no matter what for the
-        # root element. 
-        if rash.respond_to?('has_key?')
+        # the one result as a hash when there is only one. An array is returned if there 
+        # is more than one result. So I added a "standard_response" flag to return an 
+        # array in all cases.
+        if rash.respond_to?('has_key?') 
           rash = [rash]
         end
         rash

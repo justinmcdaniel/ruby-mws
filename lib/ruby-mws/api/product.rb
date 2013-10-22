@@ -10,18 +10,26 @@ module MWS
         :lists => {
           :asin_list => "ASINList.ASIN"
         },
+        :standard_response => true,
         :mods => [
           lambda { |r|
-            # if r.respond_to?('has_key?') #hack so "r.each" below can work regardless of result.
-            #   r = [r]
-            # end
             r.each do |lowest_offers|
               lowest_offers.product.lowest_offer_listings = [lowest_offers.product.lowest_offer_listings.lowest_offer_listing].flatten
             end
             }
-        ],
-        :standard_response => true
+        ]
 
+      def_request :get_matching_product_for_id,
+        :verb => :get,
+        :uri => '/Products/2011-10-01',
+        :version => '2011-10-01',
+        :lists => {
+          :id_list => "IdList.Id"
+        },
+        :standard_response => true #,
+        # :mods => [
+          
+        # ]
     end
 
   end
