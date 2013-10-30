@@ -26,10 +26,14 @@ module MWS
         :lists => {
           :id_list => "IdList.Id"
         },
-        :standard_response => true #,
-        # :mods => [
-          
-        # ]
+        :standard_response => true ,
+        :mods => [
+          lambda { |r|
+            r.each do |product|
+              product.products = [product.products.product].flatten
+            end
+            }
+        ]
     end
 
   end
