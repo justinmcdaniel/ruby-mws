@@ -31,6 +31,9 @@ module MWS
           lambda { |r|
             r.each do |product|
               product.products = [product.products.product].flatten
+              product.products.each do |real_product|
+                real_product.sales_rankings = [real_product.sales_rankings.sales_rank].flatten
+              end
             end
             }
         ]
