@@ -14,7 +14,11 @@ module MWS
         :mods => [
           lambda { |r|
             r.each do |lowest_offers|
-              lowest_offers.product.lowest_offer_listings = [lowest_offers.product.lowest_offer_listings.lowest_offer_listing].flatten
+              if lowest_offers.product.lowest_offer_listings.respond_to?("lowest_offer_listing")
+                lowest_offers.product.lowest_offer_listings = [lowest_offers.product.lowest_offer_listings.lowest_offer_listing].flatten
+              else
+                lowest_offers.product.lowest_offer_listings = []
+              end
             end
             }
         ]
@@ -32,7 +36,11 @@ module MWS
             r.each do |product|
               product.products = [product.products.product].flatten
               product.products.each do |real_product|
-                real_product.sales_rankings = [real_product.sales_rankings.sales_rank].flatten
+                if real_product.sales_rankings.respond_to?("sales_rank")
+                  real_product.sales_rankings = [real_product.sales_rankings.sales_rank].flatten
+                else
+                  real_product.sales_rankings = []
+                end
               end
             end
             }
